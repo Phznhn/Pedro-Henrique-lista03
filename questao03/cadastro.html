@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Alunos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Cadastro de Alunos</h1>
+
+    <form id="formCadastro">
+        <label>Nome:</label>
+        <input type="text" name="nome" required>
+
+        <label>E-mail:</label>
+        <input type="email" name="email" required>
+
+        <label>Idade:</label>
+        <input type="number" name="idade" min="1" max="120" required>
+
+        <label>Curso:</label>
+        <select name="curso" required>
+            <option value="">Selecione um curso</option>
+            <option value="ADS">ADS</option>
+            <option value="Computação">Computação</option>
+            <option value="Engenharia">Engenharia</option>
+        </select>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <h2>Objeto JSON</h2>
+    <pre id="json"></pre>
+
+    <h2>Alunos cadastrados</h2>
+    <table id="tabelaAlunos">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Idade</th>
+                <th>Curso</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        const formCadastro = document.getElementById("formCadastro");
+        const visorJson = document.getElementById("json");
+        const corpoTabela = document.querySelector("#tabelaAlunos tbody");
+
+        formCadastro.addEventListener("submit", (ev) => {
+            ev.preventDefault();
+
+            const dadosFormulario = new FormData(formCadastro);
+            const aluno = {};
+
+            for (const [campo, valor] of dadosFormulario.entries()) {
+                aluno[campo] = valor;
+            }
+
+            visorJson.textContent = JSON.stringify(aluno, null, 2);
+
+            const novaLinha = document.createElement("tr");
+            novaLinha.innerHTML = `
+                <td>${aluno.nome}</td>
+                <td>${aluno.email}</td>
+                <td>${aluno.idade}</td>
+                <td>${aluno.curso}</td>
+            `;
+
+            corpoTabela.appendChild(novaLinha);
+            formCadastro.reset();
+        });
+    </script>
+
+</body>
+</html>
