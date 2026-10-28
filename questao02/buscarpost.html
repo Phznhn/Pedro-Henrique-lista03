@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar Post</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Buscar Post</h1>
+    <input type="number" id="idPost" placeholder="Digite o ID">
+    <button id="btnBuscar">Buscar</button>
+    
+    <div id="resultado"></div>
+
+    <script>
+        const posts = [
+            { userId: 1, id: 1, title: "Primeiro post", body: "Aprendendo a manipular o DOM." },
+            { userId: 1, id: 2, title: "Segundo post", body: "Arrays de objetos são parecidos com o JSON de uma API." },
+            { userId: 2, id: 3, title: "Terceiro post", body: "Em breve vamos buscar estes dados no servidor." },
+            { userId: 2, id: 4, title: "Quarto post", body: "O método find devolve o primeiro item encontrado." },
+            { userId: 3, id: 5, title: "Quinto post", body: "Se nada for encontrado, find devolve undefined." }
+        ];
+
+        const inputId = document.getElementById("idPost");
+        const btnBuscar = document.getElementById("btnBuscar");
+        const areaResultado = document.getElementById("resultado");
+
+        btnBuscar.addEventListener("click", () => {
+            areaResultado.innerHTML = "";
+            areaResultado.className = "";
+
+            const valorDigitado = inputId.value.trim();
+
+            if (!valorDigitado) {
+                areaResultado.textContent = "Digite um ID.";
+                return;
+            }
+
+            const idBusca = parseInt(valorDigitado, 10);
+            const postLocalizado = posts.find(p => p.id === idBusca);
+
+            if (!postLocalizado) {
+                areaResultado.classList.add("erro");
+                areaResultado.textContent = `Post não encontrado (ID ${idBusca}). Os IDs válidos vão de 1 a 5.`;
+                return;
+            }
+
+            const tituloElemento = document.createElement("h2");
+            tituloElemento.textContent = postLocalizado.title;
+
+            const corpoElemento = document.createElement("p");
+            corpoElemento.textContent = postLocalizado.body;
+
+            areaResultado.append(tituloElemento, corpoElemento);
+        });
+    </script>
+</body>
+</html>
